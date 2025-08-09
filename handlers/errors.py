@@ -2,7 +2,7 @@ import logging
 from aiogram import Bot, Dispatcher, Router
 from aiogram.types import Update
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG, filename="logs")
 
 router = Router()
 

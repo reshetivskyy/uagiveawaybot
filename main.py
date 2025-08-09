@@ -12,6 +12,7 @@ from handlers import (
     giveaways_router,
     channels_router,
     buttons_router,
+    winners_router,
     errors_router,
 )
 
@@ -28,6 +29,7 @@ dp.include_router(start_router)
 dp.include_router(giveaways_router)
 dp.include_router(channels_router)
 dp.include_router(buttons_router)
+dp.include_router(winners_router)
 dp.include_router(errors_router)
 
 
