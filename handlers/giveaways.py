@@ -1,7 +1,10 @@
-
-
 from aiogram import Router, F
-from aiogram.types import CallbackQuery, Message, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import (
+    CallbackQuery,
+    Message,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+)
 from aiogram.fsm.context import FSMContext
 
 from sqlalchemy import delete, select
@@ -15,6 +18,7 @@ from utils.formatters import format_giveaway_text, format_joined_giveaway_text
 
 
 router = Router()
+
 
 @router.callback_query(F.data == "create_giveaway")
 async def create_giveaway(callback_query: CallbackQuery):
@@ -34,8 +38,10 @@ async def create_giveaway(callback_query: CallbackQuery):
         await session.commit()
 
     await callback_query.message.edit_text(
-        await format_giveaway_text(giveaway, callback_query), reply_markup=get_giveaway_keyboard(giveaway)
+        await format_giveaway_text(giveaway, callback_query),
+        reply_markup=get_giveaway_keyboard(giveaway),
     )
+
 
 @router.callback_query(F.data.startswith("edit_giveaway_title:"))
 async def edit_giveaway_title(callback_query: CallbackQuery, state: FSMContext):
@@ -60,12 +66,13 @@ async def edit_giveaway_response(callback_query: CallbackQuery, state: FSMContex
         "Напиши своє повідомлення яке побачить користувач коли візьме участь в розіграші."
     )
 
+
 @router.message(EditGiveawayStates.waiting_for_title)
 async def waiting_for_title(message: Message, state: FSMContext):
     value = message.text
     data = await state.get_data()
     giveaway_id = data["giveaway_id"]
-    
+
     async with async_session() as session:
         giveaway = await session.get(Giveaway, giveaway_id)
         giveaway.title = value
@@ -74,6 +81,7 @@ async def waiting_for_title(message: Message, state: FSMContext):
 
     await message.answer("Назву розіграшу успішно змінено!")
     await state.clear()
+
 
 @router.message(EditGiveawayStates.waiting_for_response)
 async def waiting_for_response(message: Message, state: FSMContext):
@@ -89,6 +97,7 @@ async def waiting_for_response(message: Message, state: FSMContext):
 
     await message.answer("Відповідь для користувача успішно змінено!")
     await state.clear()
+
 
 @router.callback_query(F.data.startswith("delete_giveaway:"))
 async def delete_giveaway(callback_query: CallbackQuery):
@@ -107,7 +116,11 @@ async def delete_giveaway(callback_query: CallbackQuery):
         await session.commit()
 
     await callback_query.message.edit_text("Розіграш успішно видалено.")
-    await callback_query.message.answer("Це перший український бот для розіграшів у Telegram!\nМеню:", reply_markup=get_homepage_keyboard())
+    await callback_query.message.answer(
+        "Це перший український бот для розіграшів у Telegram!\nМеню:",
+        reply_markup=get_homepage_keyboard(),
+    )
+
 
 @router.callback_query(F.data == "view_joinedgiveaways")
 async def view_joinedgiveaways(callback_query: CallbackQuery):
@@ -209,6 +222,7 @@ async def view_giveaways(callback_query: CallbackQuery):
 
     await callback_query.message.edit_text("Твої розіграші:", reply_markup=kb)
 
+
 @router.callback_query(F.data.startswith("view_giveaway:"))
 async def view_giveaway(callback_query: CallbackQuery):
     await callback_query.answer()
@@ -220,8 +234,10 @@ async def view_giveaway(callback_query: CallbackQuery):
         giveaway = result.scalars().first()
 
     await callback_query.message.edit_text(
-        await format_giveaway_text(giveaway, callback_query), reply_markup=get_giveaway_keyboard(giveaway)
+        await format_giveaway_text(giveaway, callback_query),
+        reply_markup=get_giveaway_keyboard(giveaway),
     )
+
 
 @router.callback_query(F.data.startswith("view_joined_giveaway:"))
 async def view_joined_giveaway(callback_query: CallbackQuery):

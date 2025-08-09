@@ -1,5 +1,3 @@
-
-
 from aiogram import F, Router, html
 from aiogram.filters import CommandStart, CommandObject
 from aiogram.types import Message, CallbackQuery
@@ -12,7 +10,6 @@ from keyboards.inline import get_homepage_keyboard
 from db.session import async_session
 
 router = Router()
-
 
 
 @router.message(CommandStart())
@@ -57,7 +54,7 @@ async def start(message: Message, command: CommandObject):
                     result = await session.execute(
                         select(GiveawayUser).where(
                             GiveawayUser.giveaway_id == giveaway.id,
-                            GiveawayUser.user_id == user.user_id,
+                            GiveawayUser.user_id == user.id,
                         )
                     )
                     exists = result.scalars().first()
@@ -103,7 +100,7 @@ async def start(message: Message, command: CommandObject):
                     result = await session.execute(
                         select(GiveawayUser).where(
                             GiveawayUser.giveaway_id == giveaway.id,
-                            GiveawayUser.user_id == user.user_id,
+                            GiveawayUser.user_id == user.id,
                         )
                     )
                     exists = result.scalars().first()
@@ -134,6 +131,7 @@ async def start(message: Message, command: CommandObject):
                         )
                     else:
                         await message.answer("Ти вже приєднався до цього розіграшу.")
+
 
 @router.callback_query(F.data == "homepage")
 async def homepage(callback_query: CallbackQuery):

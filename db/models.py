@@ -1,8 +1,8 @@
-
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .session import Base
+
 
 class Referral(Base):
     __tablename__ = "giveaway_referrals"

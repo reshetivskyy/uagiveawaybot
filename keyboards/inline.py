@@ -2,23 +2,33 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from db.models import Giveaway
 
+
 def get_giveaway_keyboard(giveaway: Giveaway):
     return InlineKeyboardMarkup(
         inline_keyboard=[
             [
                 InlineKeyboardButton(
-                    text="Редагувати назву", callback_data=f"edit_giveaway_title:{giveaway.id}"
+                    text="Редагувати назву",
+                    callback_data=f"edit_giveaway_title:{giveaway.id}",
                 ),
                 InlineKeyboardButton(
-                    text="Редагувати відповідь", callback_data=f"edit_giveaway_response:{giveaway.id}"
+                    text="Редагувати відповідь",
+                    callback_data=f"edit_giveaway_response:{giveaway.id}",
                 ),
             ],
             [
                 InlineKeyboardButton(
                     text="Додати кнопку", callback_data=f"add_button:{giveaway.id}"
                 ),
+            ],
+            [
                 InlineKeyboardButton(
-                    text="Видалити розіграш", callback_data=f"delete_giveaway:{giveaway.id}"
+                    text="Обрати переможців",
+                    callback_data=f"select_winners:{giveaway.id}",
+                ),
+                InlineKeyboardButton(
+                    text="Видалити розіграш",
+                    callback_data=f"delete_giveaway:{giveaway.id}",
                 ),
             ],
             [

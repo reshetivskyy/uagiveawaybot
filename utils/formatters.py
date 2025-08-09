@@ -1,5 +1,6 @@
 from aiogram import html
 
+
 async def format_giveaway_text(giveaway, callback_query):
     return (
         f"Назва розіграшу: {giveaway.title}\n"
@@ -8,6 +9,7 @@ async def format_giveaway_text(giveaway, callback_query):
         f"\n"
         f"Посилання на розіграш: https://t.me/{(await callback_query.bot.get_me()).username}?start=ga_{giveaway.id}\n"
     )
+
 
 async def format_joined_giveaway_text(giveaway, callback_query):
     return (
