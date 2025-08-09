@@ -7,7 +7,7 @@ __pycache__/
 .env
 .env.*
 
-.db
+*.db
 
 .vscode/
 .idea/
